@@ -1,5 +1,6 @@
 ﻿using simpleCheckout.Exceptions;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -9,8 +10,7 @@ namespace simpleCheckout
     {
         private const string validItemCode = "^([A-Z])$";
 
-        private string basket = string.Empty;
-        private StringBuilder basketBuilder = new StringBuilder();
+        private List<char> basket = new List<char>();
 
         public void Scan(string item)
         {
@@ -24,7 +24,7 @@ namespace simpleCheckout
                 throw new ItemCodeInvalidException();
             }
 
-            basketBuilder.Append(item);
+            basket.Add(item[0]);
         }
 
         public int GetTotalPrice()
