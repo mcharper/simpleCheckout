@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace simpleCheckout
 {
@@ -29,7 +30,24 @@ namespace simpleCheckout
 
         public int GetTotalPrice()
         {
-            throw new NotImplementedException();
+            var totalPrice = 0;
+
+            var groupedBasket = basket
+                            .GroupBy(itemCode => itemCode)
+                            .Select(itemCode => new
+                            {
+                                ItemCode = itemCode.Key,
+                                Quantity = itemCode.Count(),
+                                Price = 0
+                            }).ToList();
+
+            foreach(var x in groupedBasket)
+            {
+                var priceForGroup = 0;
+                totalPrice += priceForGroup;
+            }
+
+            return totalPrice;
         }
     }
 }
