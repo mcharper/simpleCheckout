@@ -20,6 +20,8 @@ namespace simpleCheckout
 
         public void Scan(string item)
         {
+            // TODO - Validate whether there is a known price for the item
+
             if(string.IsNullOrEmpty(item))
             {
                 throw new ItemCodeMissingException();

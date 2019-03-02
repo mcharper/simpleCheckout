@@ -26,8 +26,19 @@ namespace simpleCheckout
 
                 if(item == "TOTAL")
                 {
-                    var total = checkout.GetTotalPrice();
-                    Console.WriteLine($"Total is: {total}");
+                    try
+                    {
+                        var total = checkout.GetTotalPrice();
+                        Console.WriteLine($"Total so far is: {total}");
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is ItemCodeHasNoPriceException)
+                        {
+                            Console.WriteLine("One of items has no list price");
+                            Console.WriteLine();
+                        }
+                    }
                 }
                 else if(item != "DONE")
                 {
