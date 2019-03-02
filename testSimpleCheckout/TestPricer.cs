@@ -26,5 +26,14 @@ namespace testSimpleCheckout
 
             sut.GetPrice('A', -1);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ItemCodeHasNoPriceException))]
+        public void GetPriceThrowsExceptionIfItemCodeHasNoPrice()
+        {
+            var sut = new Pricer();
+
+            sut.GetPrice('Z', 1);
+        }
     }
 }

@@ -1,13 +1,24 @@
 ﻿
 using simpleCheckout.Exceptions;
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace simpleCheckout
 {
     public class Pricer : IPricer
     {
-        private const string _validItemCode = "^([A-Z])$";
+        // TODO - Remove repetition of this
+        private const string _validItemCode = "^([A-Z])$"; 
+
+        // TODO - Extract from here
+        private Dictionary<char, int> _priceList = new Dictionary<char, int>()
+        {
+            { 'A', 50 },
+            { 'B', 30 },
+            { 'C', 20 },
+            { 'D', 15 }
+        };
 
         public int GetPrice(char itemCode, int quantity)
         {
@@ -21,7 +32,12 @@ namespace simpleCheckout
                 throw new QuantityInvalidException();
             }
 
-            return 0;
+            if(!_priceList.ContainsKey(itemCode))
+            {
+                throw new ItemCodeHasNoPriceException();
+            }
+
+            return _priceList[itemCode] * quantity;
         }
     }
 }
