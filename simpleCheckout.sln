@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simpleCheckout", "simpleCheckout.csproj", "{76C5F53E-9C55-49C7-A3FA-71D52D5FDAA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simpleCheckout", "simpleCheckout\simpleCheckout.csproj", "{76C5F53E-9C55-49C7-A3FA-71D52D5FDAA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testSimpleCheckout", "testSimpleCheckout\testSimpleCheckout.csproj", "{0B6C0D78-6BD6-41BC-84A0-19004B6BECC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{76C5F53E-9C55-49C7-A3FA-71D52D5FDAA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76C5F53E-9C55-49C7-A3FA-71D52D5FDAA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76C5F53E-9C55-49C7-A3FA-71D52D5FDAA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B6C0D78-6BD6-41BC-84A0-19004B6BECC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B6C0D78-6BD6-41BC-84A0-19004B6BECC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B6C0D78-6BD6-41BC-84A0-19004B6BECC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B6C0D78-6BD6-41BC-84A0-19004B6BECC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
