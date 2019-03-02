@@ -5,7 +5,7 @@ namespace simpleCheckout
 {
     public class Pricer : IPricer
     {
-        public int GetPrice(string itemCode, int quantity)
+        public int GetPrice(char itemCode, int quantity)
         {
             throw new NotImplementedException();
         }

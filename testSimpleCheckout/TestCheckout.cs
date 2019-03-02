@@ -39,7 +39,7 @@ namespace simpleCheckout
         {
             // Arrange
             var pricer = new Mock<IPricer>();
-            pricer.Setup(a => a.GetPrice(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
+            pricer.Setup(a => a.GetPrice(It.IsAny<char>(), It.IsAny<int>())).Returns(0);
             var sut = new Checkout(pricer.Object);
 
             try
@@ -59,7 +59,7 @@ namespace simpleCheckout
         public void CheckoutScanThrowsExceptionForBlankInput()
         {
             var pricer = new Mock<IPricer>();
-            pricer.Setup(a => a.GetPrice(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
+            pricer.Setup(a => a.GetPrice(It.IsAny<char>(), It.IsAny<int>())).Returns(0);
             var sut = new Checkout(pricer.Object);
 
             sut.Scan("");
@@ -70,7 +70,7 @@ namespace simpleCheckout
         public void CheckoutScanThrowsExceptionForNumericInput()
         {
             var pricer = new Mock<IPricer>();
-            pricer.Setup(a => a.GetPrice(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
+            pricer.Setup(a => a.GetPrice(It.IsAny<char>(), It.IsAny<int>())).Returns(0);
             var sut = new Checkout(pricer.Object);
 
             sut.Scan("1");
@@ -81,7 +81,7 @@ namespace simpleCheckout
         public void CheckoutScanThrowsExceptionForTooLongInput()
         {
             var pricer = new Mock<IPricer>();
-            pricer.Setup(a => a.GetPrice(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
+            pricer.Setup(a => a.GetPrice(It.IsAny<char>(), It.IsAny<int>())).Returns(0);
             var sut = new Checkout(pricer.Object);
 
             sut.Scan("AA");
@@ -91,12 +91,57 @@ namespace simpleCheckout
         public void CheckoutGetTotalPriceReturnsZeroIfBasketIsEmpty()
         {
             var pricer = new Mock<IPricer>();
-            pricer.Setup(a => a.GetPrice(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
+            pricer.Setup(a => a.GetPrice(It.IsAny<char>(), It.IsAny<int>())).Returns(0);
             var sut = new Checkout(pricer.Object);
 
             var totalPrice = sut.GetTotalPrice();
 
             Assert.AreEqual(0, totalPrice);
+        }
+
+        [TestMethod]
+        public void CheckoutGetTotalPriceDoesNotInvokeGetPriceOnPricerIfThereAreNoItems()
+        {
+            var pricer = new Mock<IPricer>();
+            pricer.Setup(a => a.GetPrice(It.IsAny<char>(), It.IsAny<int>())).Returns(0);
+
+            var sut = new Checkout(pricer.Object);
+
+            var totalPrice = sut.GetTotalPrice();
+
+            pricer.Verify(a => a.GetPrice(It.IsAny<char>(), It.IsAny<int>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void CheckoutGetTotalPriceInvokesGetPriceOnPricerIfThereIsAnyItem()
+        {
+            var pricer = new Mock<IPricer>();
+            pricer.Setup(a => a.GetPrice(It.IsAny<char>(), It.IsAny<int>())).Returns(0);
+
+            var sut = new Checkout(pricer.Object);
+            var itemCode = "A";
+
+            sut.Scan(itemCode);
+            var totalPrice = sut.GetTotalPrice();
+
+            pricer.Verify(a => a.GetPrice(It.IsAny<char>(), It.IsAny<int>()));
+        }
+
+        [TestMethod]
+        public void CheckoutGetTotalPriceInvokesGetPriceOnPricerOnlyOnceForEachDistinctItemCode()
+        {
+            var pricer = new Mock<IPricer>();
+            pricer.Setup(a => a.GetPrice(It.IsAny<char>(), It.IsAny<int>())).Returns(0);
+
+            var sut = new Checkout(pricer.Object);
+            var itemCode = "A";
+
+            sut.Scan(itemCode);
+            sut.Scan(itemCode);
+            sut.Scan(itemCode);
+            var totalPrice = sut.GetTotalPrice();
+
+            pricer.Verify(a => a.GetPrice('A', It.IsAny<int>()), Times.Once);
         }
     }
 }

@@ -42,14 +42,12 @@ namespace simpleCheckout
                             .Select(itemCode => new
                             {
                                 ItemCode = itemCode.Key,
-                                Quantity = itemCode.Count(),
-                                Price = 0
+                                Quantity = itemCode.Count()
                             }).ToList();
 
-            foreach(var x in groupedBasket)
+            foreach(var group in groupedBasket)
             {
-                var priceForGroup = 0;
-                totalPrice += priceForGroup;
+                totalPrice += _pricer.GetPrice(group.ItemCode, group.Quantity);
             }
 
             return totalPrice;

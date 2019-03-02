@@ -3,6 +3,6 @@ namespace simpleCheckout
 {
     public interface IPricer
     {
-        int GetPrice(string itemCode, int quantity);
+        int GetPrice(char itemCode, int quantity);
     }
 }
