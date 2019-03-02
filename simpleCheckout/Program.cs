@@ -15,7 +15,9 @@ namespace simpleCheckout
             Console.WriteLine("To exit enter DONE followed by return.");
             Console.WriteLine();
 
-            var checkout = new Checkout();
+            var pricer = new Pricer();
+
+            var checkout = new Checkout(pricer);
 
             var item = string.Empty;
             do

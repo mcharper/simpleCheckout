@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using simpleCheckout.Exceptions;
 using System;
 
@@ -36,14 +37,19 @@ namespace simpleCheckout
         [DataTestMethod]
         public void CheckoutScanAcceptsAlphaInput(string itemCode)
         {
-            var sut = new Checkout();
+            // Arrange
+            var pricer = new Mock<IPricer>();
+            pricer.Setup(a => a.GetPrice(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
+            var sut = new Checkout(pricer.Object);
 
             try
             {
+                // Act
                 sut.Scan(itemCode);
             }
             catch (Exception ex)
             {
+                // Assert
                 Assert.Fail("Checkout.Scan should accept valid input");
             }
         }
@@ -52,7 +58,9 @@ namespace simpleCheckout
         [ExpectedException(typeof(ItemCodeMissingException))]
         public void CheckoutScanThrowsExceptionForBlankInput()
         {
-            var sut = new Checkout();
+            var pricer = new Mock<IPricer>();
+            pricer.Setup(a => a.GetPrice(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
+            var sut = new Checkout(pricer.Object);
 
             sut.Scan("");
         }
@@ -61,7 +69,9 @@ namespace simpleCheckout
         [ExpectedException(typeof(ItemCodeInvalidException))]
         public void CheckoutScanThrowsExceptionForNumericInput()
         {
-            var sut = new Checkout();
+            var pricer = new Mock<IPricer>();
+            pricer.Setup(a => a.GetPrice(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
+            var sut = new Checkout(pricer.Object);
 
             sut.Scan("1");
         }
@@ -70,7 +80,9 @@ namespace simpleCheckout
         [ExpectedException(typeof(ItemCodeInvalidException))]
         public void CheckoutScanThrowsExceptionForTooLongInput()
         {
-            var sut = new Checkout();
+            var pricer = new Mock<IPricer>();
+            pricer.Setup(a => a.GetPrice(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
+            var sut = new Checkout(pricer.Object);
 
             sut.Scan("AA");
         }
@@ -78,7 +90,9 @@ namespace simpleCheckout
         [TestMethod]
         public void CheckoutGetTotalPriceReturnsZeroIfBasketIsEmpty()
         {
-            var sut = new Checkout();
+            var pricer = new Mock<IPricer>();
+            pricer.Setup(a => a.GetPrice(It.IsAny<string>(), It.IsAny<int>())).Returns(0);
+            var sut = new Checkout(pricer.Object);
 
             var totalPrice = sut.GetTotalPrice();
 

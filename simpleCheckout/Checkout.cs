@@ -9,9 +9,14 @@ namespace simpleCheckout
 {
     public class Checkout : ICheckout
     {
-        private const string validItemCode = "^([A-Z])$";
+        private IPricer _pricer;
+        private const string _validItemCode = "^([A-Z])$";
+        private List<char> _basket = new List<char>();
 
-        private List<char> basket = new List<char>();
+        public Checkout(IPricer pricer)
+        {
+            _pricer = pricer;
+        }
 
         public void Scan(string item)
         {
@@ -20,19 +25,19 @@ namespace simpleCheckout
                 throw new ItemCodeMissingException();
             }
 
-            if (!Regex.IsMatch(item, validItemCode))
+            if (!Regex.IsMatch(item, _validItemCode))
             {
                 throw new ItemCodeInvalidException();
             }
 
-            basket.Add(item[0]);
+            _basket.Add(item[0]);
         }
 
         public int GetTotalPrice()
         {
             var totalPrice = 0;
 
-            var groupedBasket = basket
+            var groupedBasket = _basket
                             .GroupBy(itemCode => itemCode)
                             .Select(itemCode => new
                             {
