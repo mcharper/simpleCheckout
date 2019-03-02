@@ -75,5 +75,14 @@ namespace simpleCheckout
             sut.Scan("AA");
         }
 
+        [TestMethod]
+        public void CheckoutGetTotalPriceReturnsZeroIfBasketIsEmpty()
+        {
+            var sut = new Checkout();
+
+            var totalPrice = sut.GetTotalPrice();
+
+            Assert.AreEqual(0, totalPrice);
+        }
     }
 }
