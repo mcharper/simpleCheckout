@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using simpleCheckout.Exceptions;
 using System;
 
 namespace simpleCheckout
@@ -48,16 +49,7 @@ namespace simpleCheckout
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.Exception))]
-        public void CheckoutScanThrowsExceptionForNumericInput()
-        {
-            var sut = new Checkout();
-
-            sut.Scan("1");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Exception))]
+        [ExpectedException(typeof(ItemCodeMissingException))]
         public void CheckoutScanThrowsExceptionForBlankInput()
         {
             var sut = new Checkout();
@@ -66,12 +58,22 @@ namespace simpleCheckout
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.Exception))]
+        [ExpectedException(typeof(ItemCodeInvalidException))]
+        public void CheckoutScanThrowsExceptionForNumericInput()
+        {
+            var sut = new Checkout();
+
+            sut.Scan("1");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ItemCodeInvalidException))]
         public void CheckoutScanThrowsExceptionForTooLongInput()
         {
             var sut = new Checkout();
 
             sut.Scan("AA");
         }
+
     }
 }

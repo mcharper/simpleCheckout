@@ -1,4 +1,5 @@
-﻿using System;
+﻿using simpleCheckout.Exceptions;
+using System;
 using System.Text.RegularExpressions;
 
 namespace simpleCheckout
@@ -11,12 +12,12 @@ namespace simpleCheckout
         {
             if(string.IsNullOrEmpty(item))
             {
-                throw new Exception();
+                throw new ItemCodeMissingException();
             }
 
             if (!Regex.IsMatch(item, validItemCode))
             {
-                throw new Exception();
+                throw new ItemCodeInvalidException();
             }
         }
 

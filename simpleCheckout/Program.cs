@@ -1,4 +1,5 @@
-﻿using System;
+﻿using simpleCheckout.Exceptions;
+using System;
 
 namespace simpleCheckout
 {
@@ -26,9 +27,25 @@ namespace simpleCheckout
                     var total = checkout.GetTotalPrice();
                     Console.WriteLine($"Total is: {total}");
                 }
-                else
+                else if(item != "DONE")
                 {
-                    checkout.Scan(item);
+                    try
+                    {
+                        checkout.Scan(item);
+                    } 
+                    catch(Exception ex)
+                    {
+                        if(ex is ItemCodeMissingException)
+                        {
+                            Console.WriteLine("Item code missing");
+                            Console.WriteLine();
+                        }
+                        else if (ex is ItemCodeInvalidException)
+                        {
+                            Console.WriteLine("Item code invalid");
+                            Console.WriteLine();
+                        }
+                    }
                 }
             }
             while (item != "DONE");
