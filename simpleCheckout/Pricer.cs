@@ -9,23 +9,22 @@ namespace simpleCheckout
     public class Pricer : IPricer
     {
         // TODO - Remove repetition of this
-        private const string _validItemCode = "^([A-Z])$"; 
+        private const string _validItemCode = "^([A-Z])$";
 
-        // TODO - Extract from here
-        private Dictionary<char, int> _priceList = new Dictionary<char, int>()
-        {
-            { 'A', 50 },
-            { 'B', 30 },
-            { 'C', 20 },
-            { 'D', 15 }
-        };
+        private IPriceListRepository _priceListRepository;
+        private IOfferListRepository _offerListRepository;
 
-        // TODO - Extract from here
-        private Dictionary<char, Tuple<int,int>> _offerList = new Dictionary<char, Tuple<int, int>>()
+        private Dictionary<char, int> _priceList;
+        private Dictionary<char, Tuple<int,int>> _offerList;
+
+        public Pricer(IPriceListRepository priceListRepository, IOfferListRepository offerListRepository)
         {
-            { 'A', new Tuple<int, int>(3, 130) },
-            { 'B', new Tuple<int, int>(2, 45) },
-        };
+            _priceListRepository = priceListRepository;
+            _offerListRepository = offerListRepository;
+
+            _priceList = _priceListRepository.GetPriceList();
+            _offerList = _offerListRepository.GetOfferList();
+        }
 
         public int GetPrice(char itemCode, int quantity)
         {

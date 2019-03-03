@@ -7,6 +7,13 @@ namespace simpleCheckout
     {
         static void Main(string[] args)
         {
+            IPriceListRepository priceListRepository;
+            IOfferListRepository offerListRepository;
+
+            // TODO - Use a DI container
+            priceListRepository = new PriceListRepository();
+            offerListRepository = new OfferListRepository();
+
             Console.WriteLine("Welcome to simple Checkout!");
             Console.WriteLine();
             Console.WriteLine("Please enter the code for each item followed by return.");
@@ -15,7 +22,7 @@ namespace simpleCheckout
             Console.WriteLine("To exit enter DONE followed by return.");
             Console.WriteLine();
 
-            var pricer = new Pricer();
+            var pricer = new Pricer(priceListRepository, offerListRepository);
 
             var checkout = new Checkout(pricer);
 
