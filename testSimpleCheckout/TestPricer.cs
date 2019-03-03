@@ -262,8 +262,9 @@ namespace testSimpleCheckout
 
         [DataRow('A', 6, 260)]
         [DataRow('A', 9, 390)]
+        [DataRow('A', 12, 520)]
         [DataTestMethod]
-        public void GetPriceComputesPriceUsingOfferPriceIfQtyIsAMultipleOfOffer(char itemCode, int qty, int expectedTotal)
+        public void GetPriceComputesPriceUsingOfferPriceIfQtyIsAnExactMultipleOfOffer(char itemCode, int qty, int expectedTotal)
         {
             var priceList = new Dictionary<char, int>()
                 {
@@ -289,6 +290,8 @@ namespace testSimpleCheckout
 
         [DataRow('A', 4, 180)]
         [DataRow('A', 5, 230)]
+        [DataRow('A', 7, 310)]
+        [DataRow('A', 8, 360)]
         [DataTestMethod]
         public void GetPriceComputesPriceCorrectlyUsingOfferPriceAndUnitPriceIfQtyIsEnoughForOfferButNotExactMultiple(char itemCode, int qty, int expectedTotal)
         {

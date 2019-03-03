@@ -45,13 +45,21 @@ namespace simpleCheckout
                 throw new ItemCodeHasNoPriceException();
             }
 
+            int unitPrice = _priceList[itemCode];
+
             if (_offerList.ContainsKey(itemCode))
             {
-                price = _offerList[itemCode].Item2;
+                int offerBatchSize = _offerList[itemCode].Item1; // eg: 3 x item A
+                int offerBatchPrice = _offerList[itemCode].Item2; // for 130
+
+                int numberOfBatches = quantity / offerBatchSize;
+                int remainingUnits = quantity % offerBatchSize;
+
+                price = numberOfBatches * offerBatchPrice + remainingUnits * unitPrice;
             }
             else
             {
-                price = _priceList[itemCode] * quantity;
+                price = quantity * unitPrice;
             }
 
             return price;
